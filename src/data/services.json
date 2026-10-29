@@ -16,5 +16,14 @@
     "price": 1500,
     "category": "Peluquería",
     "available": true
+  },
+  {
+    "id": 3,
+    "name": "Limpieza Facial",
+    "description": "Limpieza profunda",
+    "duration": 60,
+    "price": 2500,
+    "category": "salud",
+    "available": true
   }
 ]
