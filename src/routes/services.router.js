@@ -4,7 +4,7 @@ import ServiceManager from '../managers/ServiceManager.js';
 const router = Router();
 const manager = new ServiceManager();
 
-// GET  Devuelve todos los servicios (acepta filtros por query params)
+// GET 
 router.get('/', async (req, res) => {
     try {
         let services = await manager.getServices();
@@ -25,10 +25,16 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET  Devuelve un servicio por ID
+
 router.get('/:sid', async (req, res) => {
     try {
         const id = parseInt(req.params.sid);
+        
+        
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "El parámetro ID debe ser un número válido" });
+        }
+
         const service = await manager.getServiceById(id);
         
         if (!service) {
@@ -41,7 +47,7 @@ router.get('/:sid', async (req, res) => {
     }
 });
 
-// POST  Crea un nuevo servicio
+
 router.post('/', async (req, res) => {
     try {
         const { name, description, duration, price, category, available } = req.body;
@@ -57,10 +63,26 @@ router.post('/', async (req, res) => {
     }
 });
 
-// PUT  Actualiza un servicio existente
+
 router.put('/:sid', async (req, res) => {
     try {
         const id = parseInt(req.params.sid);
+        
+        
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "El parámetro ID debe ser un número válido" });
+        }
+
+        
+        if (Object.keys(req.body).length === 0) {
+            return res.status(400).json({ error: "No se enviaron datos para actualizar" });
+        }
+
+        
+        if (req.body.id) {
+            return res.status(400).json({ error: "No está permitido modificar el ID del servicio" });
+        }
+
         const updatedService = await manager.updateService(id, req.body);
 
         if (!updatedService) {
@@ -73,10 +95,16 @@ router.put('/:sid', async (req, res) => {
     }
 });
 
-// DELETE 
+
 router.delete('/:sid', async (req, res) => {
     try {
         const id = parseInt(req.params.sid);
+        
+
+        if (isNaN(id)) {
+            return res.status(400).json({ error: "El parámetro ID debe ser un número válido" });
+        }
+
         const deletedService = await manager.deleteService(id);
 
         if (!deletedService) {
