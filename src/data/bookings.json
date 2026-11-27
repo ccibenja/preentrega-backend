@@ -26,5 +26,19 @@
         "quantity": 2
       }
     ]
+  },
+  {
+    "id": 3,
+    "clientName": "Juan Pérez",
+    "clientEmail": "juan@ejemplo.com",
+    "date": "2026-11-15",
+    "time": "10:30",
+    "status": "pending",
+    "services": [
+      {
+        "service": 1,
+        "quantity": 2
+      }
+    ]
   }
 ]

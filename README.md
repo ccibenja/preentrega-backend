@@ -1,56 +1,40 @@
-# Administrador de Servicios y Reservas
+# Sistema Backend de Turnos y Reservas
 
-Proyecto backend en Node.js para gestionar servicios y reservas de un sistema de turnos, utilizando Express, ESM y FileSystem.
+API REST desarrollada con Node.js, Express y FileSystem para gestionar servicios y reservas de un sistema de turnos, organizada en una arquitectura de tres capas.
 
-## Descripción
-Este proyecto implementa una API REST con Express que expone endpoints para la gestión de servicios (CRUD) y reservas. La lógica de negocio y persistencia en archivos JSON es manejada por las clases `ServiceManager` y `BookingManager`.
+## Arquitectura del Proyecto
+El proyecto separa responsabilidades en tres capas principales:
+- **Routes (`src/routes/`):** Definen únicamente los endpoints y los conectan con su controlador correspondiente. No contienen lógica de negocio.
+- **Controllers (`src/controllers/`):** Reciben `req.params`, `req.query` y `req.body`, validan los datos de entrada, invocan a los managers y devuelven la respuesta HTTP (`res.status().json()`).
+- **Managers (`src/managers/`):** Encapsulan la lógica de datos y la persistencia asíncrona en archivos JSON (`fs/promises`), sin utilizar `req` ni `res`.
 
-## Requisitos previos e Instalación
-- Node.js instalado (v16 o superior)
-1. Clonar repo: `git clone <url-de-tu-repo>`
-2. Instalar dependencias: `npm install`
-3. Renombrar `.env.example` a `.env` y configurar `PORT=8080`.
-4. Ejecutar: `npm start`
+## Estructura de Carpetas
+```text
+src/
+├── config/
+│   └── env.config.js
+├── controllers/
+│   ├── services.controller.js
+│   └── bookings.controller.js
+├── managers/
+│   ├── ServiceManager.js
+│   └── BookingManager.js
+├── routes/
+│   ├── services.router.js
+│   └── bookings.router.js
+├── data/
+│   ├── services.json
+│   └── bookings.json
+├── app.js
+└── server.js
+.env.example
+.gitignore
+package.json
+README.md
 
----
 
-## API REST - Servicios (`/api/services`)
-
-### 1. Obtener todos los servicios
-- **Método:** `GET`
-- **Ruta:** `/api/services`
-- **Query Params opcionales:** `?category=String` , `?available=Boolean`
-
-### 2. Obtener servicio por ID
-- **Método:** `GET`
-- **Ruta:** `/api/services/:sid`
-
-### 3. Crear un nuevo servicio
-- **Método:** `POST`
-- **Ruta:** `/api/services`
-- **Body esperado:** JSON con `name`, `description`, `duration`, `price`, `category`, `available`. *(No enviar ID)*.
-
-### 4. Actualizar un servicio
-- **Método:** `PUT`
-- **Ruta:** `/api/services/:sid`
-- **Body esperado:** JSON con los campos a modificar. *(No modificar ID)*.
-
-### 5. Eliminar un servicio
-- **Método:** `DELETE`
-- **Ruta:** `/api/services/:sid`
-
----
-
-## API REST - Reservas (`/api/bookings`)
-
-### 1. Crear una nueva reserva
-- **Método:** `POST`
-- **Ruta:** `/api/bookings`
-- **Body esperado:** 
-  ```json
-  {
-    "clientName": "Juan Pérez",
-    "clientEmail": "juan@ejemplo.com",
-    "date": "2026-11-15",
-    "time": "10:30"
-  }
+### 2. Verificar el repositorio y subir los cambios
+Antes de hacer push, revisa rápidamente en tu carpeta de GitHub (en el navegador) o en VS Code que:
+* Exista la carpeta `src/controllers/` con ambos archivos.
+* Existan `src/data/services.json` y `src/data/bookings.json`.
+* Esté `.env.example`, y **no** estén subidos `.env` ni `node_modules`.
